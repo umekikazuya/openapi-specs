@@ -1,0 +1,8 @@
+name: id
+in: path
+required: true
+description: "リソースの UUID v4"
+schema:
+  type: string
+  format: uuid
+  example: "01234567-89ab-cdef-0123-456789abcdef"

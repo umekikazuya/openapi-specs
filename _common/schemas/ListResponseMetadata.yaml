@@ -1,0 +1,13 @@
+type: object
+properties:
+  nextPageToken:
+    type: string
+    description: "次のページを取得するためのカーソルトークン。次のページが存在しない場合はプロパティ自体が省略される"
+    examples:
+      - "eyJpZCI6IjAxOTM0NTY3LTg5YWItY2RlZi0wMTIzLTQ1Njc4OWFiY2RlZiJ9"
+  totalResults:
+    type: integer
+    description: "全体の件数"
+    minimum: 0
+    examples:
+      - 150

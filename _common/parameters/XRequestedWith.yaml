@@ -1,0 +1,9 @@
+name: X-Requested-With
+in: header
+required: true
+description: "CSRF 対策用カスタムヘッダ。値は XMLHttpRequest 固定"
+schema:
+  type: string
+  enum:
+    - XMLHttpRequest
+  default: XMLHttpRequest

@@ -1,0 +1,42 @@
+# RFC 9457 (Problem Details for HTTP APIs) 準拠
+type: object
+required:
+  - type
+  - title
+  - status
+properties:
+  type:
+    type: string
+    format: uri-reference
+    description: "エラーの種類を識別する URI リファレンス"
+    default: "about:blank"
+    examples:
+      - "https://example.com/probs/validation-error"
+  title:
+    type: string
+    description: "エラーの種類の簡潔な概要 (human-readable)"
+    examples:
+      - "Validation Error"
+  status:
+    type: integer
+    description: "HTTP ステータスコード"
+    minimum: 100
+    maximum: 599
+    examples:
+      - 400
+  detail:
+    type: string
+    description: "この問題の発生に関する詳細説明 (human-readable)"
+    examples:
+      - "The 'email' field must be a valid email address."
+  instance:
+    type: string
+    format: uri-reference
+    description: "エラーが発生したリソースの URI リファレンス"
+    examples:
+      - "/users/01234567-89ab-cdef-0123-456789abcdef"
+  invalidParams:
+    type: array
+    description: "バリデーションエラーの詳細 (拡張フィールド)"
+    items:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/InvalidParam.yaml"
