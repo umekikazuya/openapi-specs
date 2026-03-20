@@ -1,0 +1,15 @@
+type: object
+required:
+  - name
+  - reason
+properties:
+  name:
+    type: string
+    description: "エラーが発生したフィールド名"
+    examples:
+      - "email"
+  reason:
+    type: string
+    description: "エラーの理由"
+    examples:
+      - "must be a valid email address"

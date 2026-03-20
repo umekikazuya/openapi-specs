@@ -1,0 +1,10 @@
+name: maxResults
+in: query
+required: false
+description: "1 ページあたりの最大件数"
+schema:
+  type: integer
+  minimum: 1
+  maximum: 100
+  default: 20
+  example: 20

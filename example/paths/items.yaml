@@ -1,0 +1,126 @@
+items:
+  get:
+    summary: "List items"
+    operationId: "listItems"
+    tags:
+      - items
+    security:
+      - CookieAuth: []
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PageToken.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/MaxResults.yaml'
+    responses:
+      "200":
+        description: "A paginated list of items"
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - items
+                - metadata
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    required:
+                      - id
+                      - name
+                    properties:
+                      id:
+                        type: string
+                        format: uuid
+                        example: "01234567-89ab-cdef-0123-456789abcdef"
+                      name:
+                        type: string
+                        example: "Sample Item"
+                metadata:
+                  $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ListResponseMetadata.yaml'
+      "401":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+      "500":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+  post:
+    summary: "Create an item"
+    operationId: "createItem"
+    tags:
+      - items
+    security:
+      - CookieAuth: []
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - name
+            properties:
+              name:
+                type: string
+                example: "New Item"
+    responses:
+      "201":
+        description: "Item created"
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  example: "01234567-89ab-cdef-0123-456789abcdef"
+                name:
+                  type: string
+                  example: "New Item"
+      "400":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/BadRequest.yaml'
+      "401":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+      "500":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+
+itemsId:
+  parameters:
+    - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PathId.yaml'
+  get:
+    summary: "Get an item"
+    operationId: "getItem"
+    tags:
+      - items
+    security:
+      - CookieAuth: []
+    parameters:
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
+    responses:
+      "200":
+        description: "An item"
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - id
+                - name
+              properties:
+                id:
+                  type: string
+                  format: uuid
+                  example: "01234567-89ab-cdef-0123-456789abcdef"
+                name:
+                  type: string
+                  example: "Sample Item"
+      "401":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+      "404":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/NotFound.yaml'
+      "500":
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'

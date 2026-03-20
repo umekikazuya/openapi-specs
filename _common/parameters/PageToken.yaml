@@ -1,0 +1,7 @@
+name: pageToken
+in: query
+required: false
+description: "カーソルベースページネーションのトークン。前のレスポンスの nextPageToken を指定する"
+schema:
+  type: string
+  example: "eyJpZCI6IjAxOTM0NTY3LTg5YWItY2RlZi0wMTIzLTQ1Njc4OWFiY2RlZiJ9"

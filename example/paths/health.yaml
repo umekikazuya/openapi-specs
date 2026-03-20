@@ -1,0 +1,22 @@
+get:
+  summary: "Health check"
+  operationId: "getHealth"
+  tags:
+    - health
+  responses:
+    "200":
+      description: "Service is healthy"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+            properties:
+              status:
+                type: string
+                enum:
+                  - ok
+                example: ok
+    "500":
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'

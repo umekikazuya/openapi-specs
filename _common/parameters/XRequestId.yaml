@@ -1,0 +1,7 @@
+name: X-Request-ID
+in: header
+required: false
+description: "リクエストを一意に識別する ID (ログ追跡用)"
+schema:
+  type: string
+  format: uuid
