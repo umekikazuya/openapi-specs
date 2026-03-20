@@ -7,9 +7,9 @@ items:
     security:
       - CookieAuth: []
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
-      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PageToken.yaml'
-      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/MaxResults.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestedWith.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/PageToken.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/MaxResults.yaml'
     responses:
       "200":
         description: "A paginated list of items"
@@ -37,11 +37,11 @@ items:
                         type: string
                         example: "Sample Item"
                 metadata:
-                  $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ListResponseMetadata.yaml'
+                  $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/CursorPageMetadata.yaml'
       "401":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Unauthorized.yaml'
       "500":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml'
   post:
     summary: "Create an item"
     operationId: "createItem"
@@ -50,7 +50,7 @@ items:
     security:
       - CookieAuth: []
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestedWith.yaml'
     requestBody:
       required: true
       content:
@@ -82,15 +82,15 @@ items:
                   type: string
                   example: "New Item"
       "400":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/BadRequest.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/BadRequest.yaml'
       "401":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Unauthorized.yaml'
       "500":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml'
 
 itemsId:
   parameters:
-    - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PathId.yaml'
+    - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/PathId.yaml'
   get:
     summary: "Get an item"
     operationId: "getItem"
@@ -99,7 +99,7 @@ itemsId:
     security:
       - CookieAuth: []
     parameters:
-      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
+      - $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestedWith.yaml'
     responses:
       "200":
         description: "An item"
@@ -119,8 +119,8 @@ itemsId:
                   type: string
                   example: "Sample Item"
       "401":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Unauthorized.yaml'
       "404":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/NotFound.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/NotFound.yaml'
       "500":
-        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+        $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml'

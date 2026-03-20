@@ -19,4 +19,4 @@ get:
                   - ok
                 example: ok
     "500":
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml'

@@ -1,8 +1,8 @@
 description: "Not Found (RFC 9457)"
 headers:
   X-Request-ID:
-    $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/headers/XRequestId.yaml'
+    $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/headers/XRequestId.yaml'
 content:
   application/problem+json:
     schema:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ProblemDetails.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/ProblemDetails.yaml'

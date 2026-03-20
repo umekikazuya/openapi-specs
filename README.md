@@ -1,86 +1,118 @@
 # openapi-specs
 
-OpenAPI 3.1.0 共通コンポーネントリポジトリ。
-各プロジェクトの `openapi.yaml` から Raw URL で `$ref` 参照して使う。
+OpenAPI 3.1.0 共通コンポーネントリポジトリ。各プロジェクトの `openapi.yaml` から Raw URL で `$ref` 参照して使う。
 
-## 使い方
+> **バージョニング**: URL 内のタグ (`v1`, `v2`, ...) を固定することで、破壊的変更から各プロジェクトを保護する。
+> アップグレードは各プロジェクト側で URL のタグ番号を変更する。詳細は[バージョニングポリシー](#バージョニングポリシー)を参照。
 
-各プロジェクトの `openapi.yaml` に以下のように記述する。
+## Quick Start
+
+よく使うコンポーネントのみ参照する最小構成:
 
 ```yaml
 components:
   schemas:
     ProblemDetails:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ProblemDetails.yaml"
-    ListResponseMetadata:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ListResponseMetadata.yaml"
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/ProblemDetails.yaml"
   responses:
     BadRequest:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/BadRequest.yaml"
-    Unauthorized:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml"
-    Forbidden:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Forbidden.yaml"
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/BadRequest.yaml"
     NotFound:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/NotFound.yaml"
-    Conflict:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Conflict.yaml"
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/NotFound.yaml"
     InternalServerError:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml"
-  parameters:
-    PathId:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PathId.yaml"
-    PageToken:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PageToken.yaml"
-    MaxResults:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/MaxResults.yaml"
-    XRequestedWith:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml"
-    XRequestId:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestId.yaml"
-  headers:
-    XRequestId:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/headers/XRequestId.yaml"
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml"
 ```
+
+全コンポーネントを参照する場合は[コンポーネント一覧](#コンポーネント一覧)の表を参照。
 
 ## コンポーネント一覧
 
 ### schemas
 
-| ファイル                    | 説明                                                                         |
-| --------------------------- | ---------------------------------------------------------------------------- |
-| `ProblemDetails.yaml`       | RFC 9457 準拠のエラーオブジェクト                                            |
-| `InvalidParam.yaml`         | バリデーションエラー詳細 (`ProblemDetails.invalidParams` の要素)             |
-| `ListResponseMetadata.yaml` | カーソルベースページネーションのメタデータ (`nextPageToken`, `totalResults`) |
+| ファイル                  | 説明                                                                         | いつ使うか                                         |
+| ------------------------- | ---------------------------------------------------------------------------- | -------------------------------------------------- |
+| `ProblemDetails.yaml`     | RFC 9457 準拠のエラーオブジェクト                                            | 全エラーレスポンスのボディ型として使う             |
+| `InvalidParam.yaml`       | バリデーションエラー詳細 (`ProblemDetails.invalidParams` の要素)             | 400 系でフィールド単位のエラー詳細を返すときに使う |
+| `CursorPageMetadata.yaml` | カーソルベースページネーションのメタデータ (`nextPageToken`, `totalResults`) | 一覧取得エンドポイントのレスポンスに使う           |
+
+```yaml
+components:
+  schemas:
+    ProblemDetails:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/ProblemDetails.yaml"
+    InvalidParam:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/InvalidParam.yaml"
+    CursorPageMetadata:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/CursorPageMetadata.yaml"
+```
 
 ### responses
 
-| ファイル                   | ステータス | 説明                 |
-| -------------------------- | ---------- | -------------------- |
-| `BadRequest.yaml`          | 400        | リクエスト検証エラー |
-| `Unauthorized.yaml`        | 401        | 認証エラー           |
-| `Forbidden.yaml`           | 403        | 権限不足             |
-| `NotFound.yaml`            | 404        | リソース不在         |
-| `Conflict.yaml`            | 409        | 競合                 |
-| `InternalServerError.yaml` | 500        | サーバーエラー       |
-
 全レスポンスに `X-Request-ID` レスポンスヘッダと `application/problem+json` を含む。
+
+| ファイル                   | ステータス | 説明                 | いつ使うか                           |
+| -------------------------- | ---------- | -------------------- | ------------------------------------ |
+| `BadRequest.yaml`          | 400        | リクエスト検証エラー | 入力バリデーション失敗時             |
+| `Unauthorized.yaml`        | 401        | 認証エラー           | 未認証・トークン期限切れ時           |
+| `Forbidden.yaml`           | 403        | 権限不足             | 認証済みだがリソースへのアクセス不可 |
+| `NotFound.yaml`            | 404        | リソース不在         | ID 指定のリソースが存在しないとき    |
+| `Conflict.yaml`            | 409        | 競合                 | 重複登録・楽観ロック失敗時           |
+| `InternalServerError.yaml` | 500        | サーバーエラー       | 予期しないエラー全般                 |
+
+```yaml
+components:
+  responses:
+    BadRequest:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/BadRequest.yaml"
+    Unauthorized:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Unauthorized.yaml"
+    Forbidden:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Forbidden.yaml"
+    NotFound:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/NotFound.yaml"
+    Conflict:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Conflict.yaml"
+    InternalServerError:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml"
+```
 
 ### parameters
 
-| ファイル              | 場所   | 説明                                                     |
-| --------------------- | ------ | -------------------------------------------------------- |
-| `PathId.yaml`         | path   | `/{id}` UUID v4 パスパラメータ                           |
-| `PageToken.yaml`      | query  | `?pageToken=` カーソルトークン                           |
-| `MaxResults.yaml`     | query  | `?maxResults=` 件数上限 (default: 20, max: 100)          |
-| `XRequestedWith.yaml` | header | CSRF 対策 (`X-Requested-With: XMLHttpRequest`、required) |
-| `XRequestId.yaml`     | header | ログ追跡用 (`X-Request-ID`、optional)                    |
+| ファイル              | 場所   | 説明                                                     | いつ使うか                               |
+| --------------------- | ------ | -------------------------------------------------------- | ---------------------------------------- |
+| `PathId.yaml`         | path   | `/{id}` UUID v4 パスパラメータ                           | 単一リソース取得・更新・削除のパスに使う |
+| `PageToken.yaml`      | query  | `?pageToken=` カーソルトークン                           | 一覧取得のページネーションに使う         |
+| `MaxResults.yaml`     | query  | `?maxResults=` 件数上限 (default: 20, max: 100)          | 一覧取得の件数制御に使う                 |
+| `XRequestedWith.yaml` | header | CSRF 対策 (`X-Requested-With: XMLHttpRequest`、required) | 認証が必要な全ミューテーション操作に使う |
+| `XRequestId.yaml`     | header | ログ追跡用 (`X-Request-ID`、optional)                    | 分散トレーシングが必要なエンドポイントに |
+
+```yaml
+components:
+  parameters:
+    PathId:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/PathId.yaml"
+    PageToken:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/PageToken.yaml"
+    MaxResults:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/MaxResults.yaml"
+    XRequestedWith:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestedWith.yaml"
+    XRequestId:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestId.yaml"
+```
 
 ### headers
 
-| ファイル          | 説明                                |
-| ----------------- | ----------------------------------- |
-| `XRequestId.yaml` | `X-Request-ID` レスポンスヘッダ定義 |
+| ファイル          | 説明                                | いつ使うか                               |
+| ----------------- | ----------------------------------- | ---------------------------------------- |
+| `XRequestId.yaml` | `X-Request-ID` レスポンスヘッダ定義 | レスポンスにリクエスト ID を含めるときに |
+
+```yaml
+components:
+  headers:
+    XRequestId:
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/headers/XRequestId.yaml"
+```
 
 ## 設計ガイドライン
 
@@ -93,10 +125,10 @@ components:
 
 ### 認証 (HttpOnly Cookies)
 
-| Cookie               | 用途                 | 有効期限                   |
-| -------------------- | -------------------- | -------------------------- |
-| `tayoriAccessToken`  | アクセストークン     | 15分 (一般) / 5分 (管理者) |
-| `tayoriRefreshToken` | リフレッシュトークン | 30日                       |
+| Cookie (プロジェクト固有の名前に変更) | 用途                 | 有効期限                   |
+| ------------------------------------- | -------------------- | -------------------------- |
+| `accessToken` (例)                    | アクセストークン     | 15分 (一般) / 5分 (管理者) |
+| `refreshToken` (例)                   | リフレッシュトークン | 30日                       |
 
 ### CSRF 対策
 
@@ -137,48 +169,39 @@ GET /resources?pageToken=<token>&maxResults=20
 }
 ```
 
+## バージョニングポリシー
+
+タグ (`v1`, `v2`, ...) は破壊的変更が生じたときにのみ上げる。
+
+**破壊的変更 (タグを上げる)**:
+
+- フィールドの削除
+- フィールドの型変更
+- `required` への追加
+
+**非破壊的変更 (同タグへの上書き可)**:
+
+- フィールドの追加
+- `description` の修正
+- `example` の追加・変更
+
+タグの切り方:
+
+```bash
+git tag v2
+git push origin v2
+```
+
 ## ローカル開発 (example)
 
 `example/` に動作確認用のサンプル仕様書がある。
 
 ```bash
-pnpm install
-
 # Spectral で lint
-pnpm run lint
+npm install -g @stoplight/spectral-cli
+spectral lint example/openapi.yaml
 
 # Prism でモックサーバー起動 (http://localhost:4010)
-pnpm run mock
-```
-
-## ファイル構成
-
-```
-_common/
-  schemas/
-    ProblemDetails.yaml
-    InvalidParam.yaml
-    ListResponseMetadata.yaml
-  responses/
-    BadRequest.yaml
-    Unauthorized.yaml
-    Forbidden.yaml
-    NotFound.yaml
-    Conflict.yaml
-    InternalServerError.yaml
-  parameters/
-    PathId.yaml
-    PageToken.yaml
-    MaxResults.yaml
-    XRequestedWith.yaml
-    XRequestId.yaml
-  headers/
-    XRequestId.yaml
-example/
-  openapi.yaml          # 動作確認用サンプル
-  paths/
-    health.yaml
-    items.yaml
-.spectral.yaml
-package.json
+npm install -g @stoplight/prism-cli
+prism mock example/openapi.yaml
 ```
