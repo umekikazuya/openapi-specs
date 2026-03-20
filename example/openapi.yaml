@@ -18,7 +18,7 @@ components:
     CookieAuth:
       type: apiKey
       in: cookie
-      name: tayoriAccessToken
+      name: accessToken  # TODO: プロジェクト固有の Cookie 名に変更する
       description: |
         HttpOnly Cookie によるアクセストークン認証。
         - 一般ユーザー: 有効期限 15 分
@@ -26,39 +26,39 @@ components:
     CookieRefreshAuth:
       type: apiKey
       in: cookie
-      name: tayoriRefreshToken
+      name: refreshToken  # TODO: プロジェクト固有の Cookie 名に変更する
       description: "トークンリフレッシュ専用の HttpOnly Cookie (有効期限 30 日)"
   schemas:
     ProblemDetails:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ProblemDetails.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/ProblemDetails.yaml'
     InvalidParam:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/InvalidParam.yaml'
-    ListResponseMetadata:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/ListResponseMetadata.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/InvalidParam.yaml'
+    CursorPageMetadata:
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/CursorPageMetadata.yaml'
   responses:
     BadRequest:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/BadRequest.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/BadRequest.yaml'
     Unauthorized:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Unauthorized.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Unauthorized.yaml'
     Forbidden:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Forbidden.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Forbidden.yaml'
     NotFound:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/NotFound.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/NotFound.yaml'
     Conflict:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/Conflict.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/Conflict.yaml'
     InternalServerError:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/responses/InternalServerError.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/responses/InternalServerError.yaml'
   parameters:
     PageToken:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PageToken.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/PageToken.yaml'
     MaxResults:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/MaxResults.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/MaxResults.yaml'
     PathId:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/PathId.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/PathId.yaml'
     XRequestedWith:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestedWith.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestedWith.yaml'
     XRequestId:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/parameters/XRequestId.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/parameters/XRequestId.yaml'
   headers:
     XRequestId:
-      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/headers/XRequestId.yaml'
+      $ref: 'https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/headers/XRequestId.yaml'

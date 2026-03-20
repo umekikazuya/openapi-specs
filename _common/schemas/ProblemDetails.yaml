@@ -1,5 +1,6 @@
-# RFC 9457 (Problem Details for HTTP APIs) 準拠
+# RFC 9457 Problem Details
 type: object
+description: エラー情報の標準フォーマット (RFC 9457)
 required:
   - type
   - title
@@ -8,35 +9,36 @@ properties:
   type:
     type: string
     format: uri-reference
-    description: "エラーの種類を識別する URI リファレンス"
+    description: エラーの種類を識別するURIリファレンス。
     default: "about:blank"
     examples:
-      - "https://example.com/probs/validation-error"
+      - "https://examples.com/probs/invalidParameters"
   title:
     type: string
-    description: "エラーの種類の簡潔な概要 (human-readable)"
+    description: エラーの種類の簡潔な概要（人間向け、言語化可能）。
     examples:
-      - "Validation Error"
+      - "Your request parameters didn't validate."
   status:
     type: integer
-    description: "HTTP ステータスコード"
+    description: この問題の発生に対してオリジンサーバーによって生成されたHTTPステータスコード。
     minimum: 100
     maximum: 599
     examples:
       - 400
   detail:
     type: string
-    description: "この問題の発生に関する詳細説明 (human-readable)"
+    description: この問題の発生に関する詳細な説明（人間向け）。
     examples:
-      - "The 'email' field must be a valid email address."
+      - "The 'emailAddress' field must be a valid email address."
   instance:
     type: string
     format: uri-reference
-    description: "エラーが発生したリソースの URI リファレンス"
+    description: エラーが発生した特定のリソースを識別するURIリファレンス。
     examples:
-      - "/users/01234567-89ab-cdef-0123-456789abcdef"
+      - "/api/v1/messages/550e8400-e29b-41d4-a716-446655440000"
+  # Extensions (RFC 9457 Section 3.2)
   invalidParams:
     type: array
-    description: "バリデーションエラーの詳細 (拡張フィールド)"
+    description: バリデーションエラーの詳細（拡張フィールド）。
     items:
-      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/main/_common/schemas/InvalidParam.yaml"
+      $ref: "https://raw.githubusercontent.com/umekikazuya/openapi-specs/v1/_common/schemas/InvalidParam.yaml"
